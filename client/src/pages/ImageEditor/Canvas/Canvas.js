@@ -1,28 +1,46 @@
 import React, { Component } from 'react';
-import testImg from '../../assets/images/car.png';
+
+import testImg from '../../../assets/images/car.png';
 
 class Canvas extends Component {
-  componentDidMount() {
-    const canvas = this.refs.canvas;
-    const ctx = canvas.getContext("2d");
-    const img = new Image();
-    img.src = testImg;
-    
+  constructor(props) {
+    super(props);
+
+    this.canvas = React.createRef();
+  }
+
+  componentDidMount() {    
+    let img = this.props.img;
     img.onload = () => {
-      const width = img.width;
-      const height = img.height;
-      canvas.width = width;
-      canvas.height = height;
-      ctx.drawImage(img, 0, 0);
-      this.pixelate(ctx, 4, width, height);
+      this.pixelate(img, +this.props.pixelSize);
     }
   }
 
-  pixelate = (ctx, sampleSize, width, height) => {
+  componentDidUpdate() {
+    let img = this.props.img;
+    this.pixelate(img, +this.props.pixelSize);
+  }
+
+  setCanvasDimensions(canvas, width, height) {
+    canvas.width = width;
+    canvas.height = height;
+  }
+
+  pixelate = (img, pixelSize) => {
+    const canvas = this.canvas.current;
+    const ctx = canvas.getContext('2d');
+    const width = img.width;
+    const height = img.height;
+    this.setCanvasDimensions(canvas, width, height);
+    
+    // Get the image data of the original image
+    ctx.drawImage(img, 0, 0);
     const imgData = ctx.getImageData(0, 0, width, height).data;
     ctx.clearRect(0, 0, width, height);
-    for (let y = 0; y < height; y += sampleSize) {
-      for (let x = 0; x < width; x += sampleSize) {
+
+    // Pixelate the image and draw each pixel
+    for (let y = 0; y < height; y += pixelSize) {
+      for (let x = 0; x < width; x += pixelSize) {
         const pos = (y * width + x) * 4;
         const red = imgData[pos];
         const green = imgData[pos + 1];
@@ -30,16 +48,16 @@ class Canvas extends Component {
         let alpha = imgData[pos + 3];
         if (alpha > 0) alpha = 255;
         ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-        ctx.fillRect(x, y, sampleSize, sampleSize);
+        ctx.fillRect(x, y, pixelSize, pixelSize);
       }
-    }  
+    } 
   }
 
   render() {
     return(
       <div>
         <img ref="image" src={testImg} className="hidden" />
-        <canvas ref="canvas" width={300} height={300} />
+        <canvas ref={this.canvas} width={300} height={300} />
       </div>
     )
   }
