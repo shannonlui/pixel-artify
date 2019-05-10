@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import Layout from './containers/Layout/Layout';
-import Canvas from './containers/Canvas/Canvas';
+import Layout from './components/Layout/Layout';
+import ImageEditor from './pages/ImageEditor/ImageEditor';
 
 function App() {
   let routes = (
     <Switch>
-      <Route path="/" exact component={Canvas} />
+      <Route path="/" exact component={ImageEditor} />
       <Redirect to="/" />
     </Switch>
   );
