@@ -7,8 +7,10 @@ import testImg from '../../assets/images/car.png';
 
 class ImageEditor extends Component {
   state = {
-    pixelSize: 5,
-    img: this.createTestImage()
+    pixelSize: 4,
+    img: this.createTestImage(),
+    editPalette: false,
+    maxColors: 0
   }
 
   createTestImage() {
@@ -21,16 +23,30 @@ class ImageEditor extends Component {
     this.setState({pixelSize: event.target.value});
   }
 
+  editPaletteChangedHandler = () => {
+    this.setState(prevState => ({
+      editPalette: !prevState.editPalette
+    }));
+  }
+
+  maxColorsChangedHandler = (event) => {
+    this.setState({maxColors: event.target.value});
+  }
+
   render() {
     return(
       <div className={styles.editor}>
         <Controls 
           pixelSize={this.state.pixelSize}
           maxPixelSize={Math.floor(Math.min(this.state.img.width, this.state.img.height) * 0.6)}
-          onChangePixelSize={this.pixelSizeChangedHandler} />
+          onChangePixelSize={this.pixelSizeChangedHandler}
+          editPalette={this.state.editPalette}
+          onChangeEditPalette={this.editPaletteChangedHandler}
+          onChangeMaxColors={this.maxColorsChangedHandler} />
         <Canvas 
           pixelSize={this.state.pixelSize}
-          img={this.state.img} />
+          img={this.state.img}
+          maxColors={this.state.maxColors} />
       </div>
     )
   }
