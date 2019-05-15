@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import styles from './ImageEditor.module.css';
 import Canvas from './Canvas/Canvas';
 import Controls from './Controls/Controls';
-import testImg from '../../assets/images/car.png';
 
 class ImageEditor extends Component {
   state = {
     pixelSize: 4,
-    img: this.createTestImage(),
     editPalette: false,
     maxColors: 0
-  }
-
-  createTestImage() {
-    const img = new Image();
-    img.src = testImg;
-    return img;
   }
 
   pixelSizeChangedHandler = (event) => {
@@ -38,18 +31,25 @@ class ImageEditor extends Component {
       <div className={styles.editor}>
         <Controls 
           pixelSize={this.state.pixelSize}
-          maxPixelSize={Math.floor(Math.min(this.state.img.width, this.state.img.height) * 0.6)}
+          // maxPixelSize={Math.floor(Math.min(this.props.img.width, this.props.img.height) * 0.6)}
+          maxPixelSize="100"
           onChangePixelSize={this.pixelSizeChangedHandler}
           editPalette={this.state.editPalette}
           onChangeEditPalette={this.editPaletteChangedHandler}
           onChangeMaxColors={this.maxColorsChangedHandler} />
         <Canvas 
           pixelSize={this.state.pixelSize}
-          img={this.state.img}
+          img={this.props.img}
           maxColors={this.state.maxColors} />
       </div>
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    img: state.image
+  };
+};
     
-export default ImageEditor;
+export default connect(mapStateToProps)(ImageEditor);

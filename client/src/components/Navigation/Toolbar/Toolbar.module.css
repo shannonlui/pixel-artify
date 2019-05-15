@@ -8,14 +8,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 40px;
   z-index: 10;
-  color: white;
 }
 
 .logo {
   font-family: 'VT323', serif;
   font-size: 46px;
-  padding: 0 20px;
   margin-top: -5px;
+  color:white;
+  text-decoration: none;
+}
+
+.light {
+  background-color: white;
+  text-shadow: 2px 2px #eee;
+  box-shadow: 0 3px 3px -2px rgba(0,0,0,0.2);
+}
+
+.light .logo {
+  color: #ef6461;
 }

@@ -1,0 +1,17 @@
+.uploader input[type=file] { 
+  visibility: hidden;
+  position: absolute;
+}
+
+.uploader label {
+  display: inline-block;
+  cursor: pointer;
+  padding: 16px 30px;
+  margin: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  background: #ef6461;
+  font-size: 1.2em;
+  box-shadow: 5px 5px;
+}

@@ -1,0 +1,2 @@
+export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+export const UPDATE_PIXEL_SIZE = 'UPDATE_PIXEL_SIZE';
