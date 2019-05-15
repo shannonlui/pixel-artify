@@ -1,8 +1,8 @@
 import React from 'react';
 
-import styles from './Controls.module.css';
+import styles from './Sidebar.module.css';
 
-const controls = (props) => (
+const sidebar = (props) => (
   <div className={styles.controls}>
     <div className={styles.control}>
       <div className={styles.label}>
@@ -40,4 +40,4 @@ const controls = (props) => (
   </div>
 );
 
-export default controls;
+export default sidebar;

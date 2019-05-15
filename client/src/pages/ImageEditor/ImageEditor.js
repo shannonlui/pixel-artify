@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import styles from './ImageEditor.module.css';
 import Canvas from './Canvas/Canvas';
-import Controls from './Controls/Controls';
+import Sidebar from './Sidebar/Sidebar';
 
 class ImageEditor extends Component {
   state = {
@@ -29,7 +29,7 @@ class ImageEditor extends Component {
   render() {
     return(
       <div className={styles.editor}>
-        <Controls 
+        <Sidebar 
           pixelSize={this.state.pixelSize}
           // maxPixelSize={Math.floor(Math.min(this.props.img.width, this.props.img.height) * 0.6)}
           maxPixelSize="100"
