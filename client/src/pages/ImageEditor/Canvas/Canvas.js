@@ -15,7 +15,9 @@ class Canvas extends Component {
     }
   }
 
-  componentDidMount() {    
+  componentDidMount() {
+    this.props.setExportImage(this.saveCanvas);
+    
     let img = this.props.img;
     img.onload = () => {
       this.pixelate(img, +this.props.pixelSize);
@@ -73,6 +75,19 @@ class Canvas extends Component {
         ctx.fillRect(x, y, pixelSize, pixelSize);
       }
     } 
+  }
+
+  saveCanvas = () => {
+    const canvas = this.canvas.current;
+    if (canvas.msToBlob) {
+      // Save canvas as an image in IE
+      const blob = canvas.msToBlob();
+      window.navigator.msSaveBlob(blob, 'canvas.png');
+    } else { 
+      // Save canvas as an image in Chrome/Firefox
+      const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+      window.location.href = image;
+    }
   }
 
   getClosestColor(colors, target) {

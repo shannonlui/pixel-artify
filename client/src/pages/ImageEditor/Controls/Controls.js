@@ -34,6 +34,9 @@ const controls = (props) => (
           onChange={props.onChangeMaxColors}
           placeholder="Max number of colors"/> : null}
     </div>
+    <button
+      className={styles.export}
+      onClick={props.exportImage}>Export</button>
   </div>
 );
 

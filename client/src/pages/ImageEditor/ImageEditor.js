@@ -36,11 +36,13 @@ class ImageEditor extends Component {
           onChangePixelSize={this.pixelSizeChangedHandler}
           editPalette={this.state.editPalette}
           onChangeEditPalette={this.editPaletteChangedHandler}
-          onChangeMaxColors={this.maxColorsChangedHandler} />
+          onChangeMaxColors={this.maxColorsChangedHandler}
+          exportImage={() => this.exportImage()} />
         <Canvas 
           pixelSize={this.state.pixelSize}
           img={this.props.img}
-          maxColors={this.state.maxColors} />
+          maxColors={this.state.maxColors}
+          setExportImage={click => this.exportImage = click} />
       </div>
     )
   }
