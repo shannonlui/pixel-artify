@@ -1,4 +1,14 @@
-.editor {
-  display: flex;
-  flex-wrap: wrap;  
+.content {
+  height: 100vh;
+  margin-left: 340px;
+  position: relative;
+  background: #444;
+}
+
+.content canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px dashed #666;
 }

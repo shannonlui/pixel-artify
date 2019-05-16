@@ -28,8 +28,9 @@ class ImageEditor extends Component {
 
   render() {
     return(
-      <div className={styles.editor}>
+      <div>
         <Sidebar 
+          img={this.props.img}
           pixelSize={this.state.pixelSize}
           // maxPixelSize={Math.floor(Math.min(this.props.img.width, this.props.img.height) * 0.6)}
           maxPixelSize="100"
@@ -38,11 +39,13 @@ class ImageEditor extends Component {
           onChangeEditPalette={this.editPaletteChangedHandler}
           onChangeMaxColors={this.maxColorsChangedHandler}
           exportImage={() => this.exportImage()} />
-        <Canvas 
-          pixelSize={this.state.pixelSize}
-          img={this.props.img}
-          maxColors={this.state.maxColors}
-          setExportImage={click => this.exportImage = click} />
+        <div className={styles.content}>
+          <Canvas 
+            pixelSize={this.state.pixelSize}
+            img={this.props.img}
+            maxColors={this.state.maxColors}
+            setExportImage={click => this.exportImage = click} />
+        </div>
       </div>
     )
   }

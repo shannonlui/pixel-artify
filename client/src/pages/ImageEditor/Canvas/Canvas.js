@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import testImg from '../../../assets/images/car.png';
 import ColorThief from '../../../utils/color-thief/color-thief';
 import { getColorDifference } from '../../../utils/colorDifference';
 
@@ -12,7 +11,7 @@ class Canvas extends Component {
     this.colorThief = new ColorThief();
     this.state = {
       palette: []
-    }
+    };
   }
 
   componentDidMount() {
@@ -106,11 +105,8 @@ class Canvas extends Component {
 
   render() {
     return(
-      <div>
-        <img ref="image" src={testImg} className="hidden" />
-        <canvas ref={this.canvas} width={300} height={300} />
-      </div>
-    )
+      <canvas ref={this.canvas} width={300} height={300} />
+    );
   }
 }
     

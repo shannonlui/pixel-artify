@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../store/actions';
 import styles from './Home.module.css';
+import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
 
 class Home extends Component {
@@ -17,12 +18,15 @@ class Home extends Component {
 
   render() {
     return(
-      <div className={styles.bg}>
-        <div className={styles.content}>
-          <h1>Transform images into pixel art.</h1>
-          <ImageUploader onUploadImage={this.imageUploadHandler} />
-        </div>
-      </div>
+      <React.Fragment>
+        <Toolbar theme="light" />
+        <div className={styles.bg}>
+          <div className={styles.content}>
+            <h1>Transform images into pixel art.</h1>
+            <ImageUploader onUploadImage={this.imageUploadHandler} />
+          </div>
+        </div>        
+      </React.Fragment>
     );
   }
 }

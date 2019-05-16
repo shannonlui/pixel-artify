@@ -1,15 +1,41 @@
-.controls {
+.sidebar {
+  height: 100%;
   width: 340px;
-  padding: 40px;
-  height: 100vh;
-  background: #133c55;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #333;
+  overflow-x: hidden;
+}
+
+.sidebar:after {
+  padding-bottom: 40px;
+}
+
+.logo {
+  display: block;
+  font-family: 'VT323', serif;
+  font-size: 38px;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  margin-bottom: 40px;
+  padding-top: 15px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #555;
+}
+
+.controls {
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .control {
   color: white;
   margin-bottom: 64px;
 }
-.control label {
+
+.control label, .label {
   display: block;
   color: white;
   margin: 10px 0;
@@ -129,4 +155,14 @@ input:checked + .toggle:before {
   text-transform: uppercase;
   font-weight: bold;
   cursor: pointer;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.sidebar img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 250px;
+  border: 1px solid #555;
 }
