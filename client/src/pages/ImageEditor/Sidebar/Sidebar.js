@@ -26,6 +26,45 @@ const sidebar = (props) => (
       </div>
       <div className={styles.control}>
         <div className={styles.label}>
+          <label>Contrast</label>
+          <div>{props.contrast}</div>
+        </div>
+        <input 
+          className={styles.slider}
+          type="range" 
+          min="-100"
+          max="100"
+          value={props.contrast}
+          onChange={props.onChangeContrast} /> 
+      </div>
+      <div className={styles.control}>
+        <div className={styles.label}>
+          <label>Brightness</label>
+          <div>{props.brightness}</div>
+        </div>
+        <input 
+          className={styles.slider}
+          type="range" 
+          min="-100"
+          max="100"
+          value={props.brightness}
+          onChange={props.onChangeBrightness} /> 
+      </div>
+      <div className={styles.control}>
+        <div className={styles.label}>
+          <label>Saturation</label>
+          <div>{props.saturation}</div>
+        </div>
+        <input 
+          className={styles.slider}
+          type="range" 
+          min="-100"
+          max="100"
+          value={props.saturation}
+          onChange={props.onChangeSaturation} /> 
+      </div>
+      <div className={styles.control}>
+        <div className={styles.label}>
           <label>Limit Color Palette</label>
           <label className={styles.switch}>
             <input 

@@ -36,6 +36,7 @@ class Canvas extends Component {
     }
 
     this.pixelate(img, +this.props.pixelSize);
+    this.adjustColors(this.props.contrast, this.props.brightness, this.props.saturation);
   }
 
   setCanvasDimensions(canvas, width, height) {
@@ -101,6 +102,41 @@ class Canvas extends Component {
       }
     }
     return closest;
+  }
+
+  adjustColors = (contrast, brightness, saturation) => {
+    const canvas = this.canvas.current;
+    const ctx = canvas.getContext('2d');
+    let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    if (contrast !== 0 || brightness !== 0) {
+      this.adjustContrastAndBrightness(imgData.data, contrast, brightness);
+    }
+    if (saturation !== 0) {
+      this.adjustSaturation(imgData.data, saturation);
+    }
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  adjustContrastAndBrightness(imgData, contrast, brightness) {
+    brightness = brightness * 0.75;
+    contrast = (contrast / 100) + 1;
+    const intercept = 128 * (1 - contrast);
+    for (let i = 0; i < imgData.length; i += 4) {
+      imgData[i] = imgData[i] * contrast + intercept + brightness;
+      imgData[i + 1] = imgData[i + 1] * contrast + intercept + brightness;
+      imgData[i + 2] = imgData[i + 2] * contrast + intercept + brightness;
+    }
+  }
+
+  adjustSaturation(imgData, saturation) {
+    saturation = (saturation / 100) + 1;
+    for (let i = 0; i < imgData.length; i += 4) {
+      const gray = imgData[i] * 0.3086 + imgData[i + 1] * 0.6094 + imgData[i + 2] * 0.0820;
+      const intercept = gray * (1 - saturation);
+      imgData[i] = imgData[i] * saturation + intercept;
+      imgData[i + 1] = imgData[i + 1] * saturation + intercept;
+      imgData[i + 2] = imgData[i + 2] * saturation + intercept;
+    }
   }
 
   render() {

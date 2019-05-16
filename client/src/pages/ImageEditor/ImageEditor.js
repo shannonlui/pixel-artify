@@ -9,11 +9,26 @@ class ImageEditor extends Component {
   state = {
     pixelSize: 4,
     editPalette: false,
-    maxColors: 0
+    maxColors: 0,
+    contrast: 0,
+    brightness: 0,
+    saturation: 0
   }
 
   pixelSizeChangedHandler = (event) => {
     this.setState({pixelSize: event.target.value});
+  }
+
+  contrastChangedHandler = (event) => {
+    this.setState({contrast: event.target.value});
+  }
+
+  brightnessChangedHandler = (event) => {
+    this.setState({brightness: event.target.value});
+  }
+
+  saturationChangedHandler = (event) => {
+    this.setState({saturation: event.target.value});
   }
 
   editPaletteChangedHandler = () => {
@@ -38,13 +53,22 @@ class ImageEditor extends Component {
           editPalette={this.state.editPalette}
           onChangeEditPalette={this.editPaletteChangedHandler}
           onChangeMaxColors={this.maxColorsChangedHandler}
-          exportImage={() => this.exportImage()} />
+          exportImage={() => this.exportImage()}
+          contrast={this.state.contrast}
+          onChangeContrast={this.contrastChangedHandler}
+          brightness={this.state.brightness}
+          onChangeBrightness={this.brightnessChangedHandler}
+          saturation={this.state.saturation}
+          onChangeSaturation={this.saturationChangedHandler} />
         <div className={styles.content}>
           <Canvas 
             pixelSize={this.state.pixelSize}
             img={this.props.img}
             maxColors={this.state.maxColors}
-            setExportImage={click => this.exportImage = click} />
+            setExportImage={click => this.exportImage = click}
+            contrast={this.state.contrast}
+            brightness={this.state.brightness}
+            saturation={this.state.saturation} />
         </div>
       </div>
     )
