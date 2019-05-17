@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import ColorThief from '../../../utils/color-thief/color-thief';
 import { getColorDifference } from '../../../utils/colorDifference';
@@ -27,10 +28,10 @@ class Canvas extends Component {
     let img = this.props.img;
 
     // Update colors in palette
-    if (prevProps.maxColors !== this.props.maxColors) {
+    if (prevProps.colorCount !== this.props.colorCount) {
       let palette = [];
-      if (this.props.maxColors > 0 && this.props.maxColors < 101) {
-        palette = this.colorThief.getPalette(img, this.props.maxColors);
+      if (this.props.colorCount > 0 && this.props.colorCount < 101) {
+        palette = this.colorThief.getPalette(img, this.props.colorCount);
       }
       this.setState({palette: palette});
     }
@@ -145,5 +146,16 @@ class Canvas extends Component {
     );
   }
 }
-    
-export default Canvas;
+
+const mapStateToProps = state => {
+  return {
+    img: state.image,
+    pixelSize: state.pixelSize,
+    contrast: state.contrast,
+    brightness: state.brightness,
+    saturation: state.saturation,
+    colorCount: state.colorCount
+  };
+};
+
+export default connect(mapStateToProps)(Canvas);

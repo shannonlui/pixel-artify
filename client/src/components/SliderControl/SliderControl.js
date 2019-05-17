@@ -14,7 +14,7 @@ const sliderControl = (props) => (
       min={props.minValue}
       max={props.maxValue}
       value={props.inputValue}
-      onChange={props.onChangeValue} /> 
+      onChange={e => props.onChangeValue(e.target.value)} /> 
   </FormControl>
 );
 

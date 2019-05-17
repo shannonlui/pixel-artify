@@ -10,8 +10,12 @@ const createTestImage = () => {
 }
 
 const initialState = {
-    image: createTestImage(),
-    pixelSize: 4
+  image: createTestImage(),
+  pixelSize: 4,
+  contrast: 0,
+  brightness: 0,
+  saturation: 0,
+  colorCount: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,7 +23,15 @@ const reducer = (state = initialState, action) => {
     case actionTypes.UPLOAD_IMAGE:
       return updateObject(state, {image: action.image});
     case actionTypes.UPDATE_PIXEL_SIZE:
-      return updateObject(state, {image: action.pixelSize});
+      return updateObject(state, {pixelSize: action.pixelSize});
+    case actionTypes.UPDATE_CONTRAST:
+      return updateObject(state, {contrast: action.contrast});
+    case actionTypes.UPDATE_BRIGHTNESS:
+      return updateObject(state, {brightness: action.brightness});
+    case actionTypes.UPDATE_SATURATION:
+      return updateObject(state, {saturation: action.saturation});
+    case actionTypes.UPDATE_COLOR_COUNT:
+      return updateObject(state, {colorCount: action.colorCount});
   }
   return state;
 };
