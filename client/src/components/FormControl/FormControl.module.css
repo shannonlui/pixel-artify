@@ -1,0 +1,12 @@
+.control {
+  color: white;
+  margin-bottom: 64px;
+}
+
+.control .label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
