@@ -1,3 +1,30 @@
+.sidebar {
+  height: 100%;
+  width: 340px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #333;
+  overflow-x: hidden;
+}
+
+.sidebar:after {
+  padding-bottom: 40px;
+}
+
+.logo {
+  display: block;
+  font-family: 'VT323', serif;
+  font-size: 38px;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  margin-bottom: 40px;
+  padding-top: 15px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #555;
+}
+
 .content {
   height: 100vh;
   margin-left: 340px;

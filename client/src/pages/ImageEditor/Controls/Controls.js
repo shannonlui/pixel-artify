@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import styles from './Controls.module.css';
-import * as actions from '../../../../store/actions';
-import SliderControl from '../../../../components/SliderControl/SliderControl';
-import ToggleSwitch from '../../../../components/ToggleSwitch/ToggleSwitch';
-import FormControl from '../../../../components/FormControl/FormControl';
+import * as actions from '../../../store/actions';
+import SliderControl from '../../../components/SliderControl/SliderControl';
+import ToggleSwitch from '../../../components/ToggleSwitch/ToggleSwitch';
+import FormControl from '../../../components/FormControl/FormControl';
 
 const Controls = (props) => {
   const [editPalette, setEditPalette] = useState(false);

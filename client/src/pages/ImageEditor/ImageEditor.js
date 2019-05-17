@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from './ImageEditor.module.css';
+
+import Controls from './Controls/Controls';
 import Canvas from './Canvas/Canvas';
-import Sidebar from './Sidebar/Sidebar';
 
 class ImageEditor extends Component {
   render() {
     return(
       <div>
-        <Sidebar exportImage={() => this.exportImage()} />
+        <div className={styles.sidebar}>
+          <Link to="/" className={styles.logo}>pixel artify</Link>
+          <Controls exportImage={() => this.exportImage()} />
+        </div>
         <div className={styles.content}>
           <Canvas setExportImage={click => this.exportImage = click} />
         </div>
