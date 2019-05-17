@@ -33,7 +33,8 @@ class ImageEditor extends Component {
 
   editPaletteChangedHandler = () => {
     this.setState(prevState => ({
-      editPalette: !prevState.editPalette
+      editPalette: !prevState.editPalette,
+      maxColors: !prevState.editPalette ? prevState.maxColors : 0
     }));
   }
 
