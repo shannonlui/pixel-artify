@@ -1,9 +1,15 @@
 import * as actionTypes from './actionTypes';
 
-export const uploadImage = (image) => {
+export const loadImage = (image) => {
   return {
-    type: actionTypes.UPLOAD_IMAGE,
+    type: actionTypes.LOAD_IMAGE,
     image: image
+  };
+};
+
+export const loadImageSuccess = () => {
+  return {
+    type: actionTypes.LOAD_IMAGE_SUCCESS
   };
 };
 

@@ -39,7 +39,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUploadImage: (img) => dispatch(actions.uploadImage(img))
+    onUploadImage: (img) => dispatch(actions.loadImage(img))
   };
 };
     

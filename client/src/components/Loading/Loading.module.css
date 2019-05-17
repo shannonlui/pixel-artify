@@ -1,0 +1,14 @@
+.loading {
+  text-align: center;
+}
+
+.text {
+  display: inline-block;
+  background-color: #ccc;
+  padding: 20px 30px;
+  min-width: 200px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 auto;
+}

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import styles from './Canvas.module.css';
+import * as actions from '../../../store/actions';
 import ColorThief from '../../../utils/color-thief/color-thief';
 import { getColorDifference } from '../../../utils/colorDifference';
 
@@ -20,6 +22,7 @@ class Canvas extends Component {
     
     let img = this.props.img;
     img.onload = () => {
+      this.props.onLoadImageSuccess();
       this.pixelate(img, +this.props.pixelSize);
     }
   }
@@ -142,7 +145,7 @@ class Canvas extends Component {
 
   render() {
     return(
-      <canvas ref={this.canvas} width={300} height={300} />
+      <canvas ref={this.canvas} className={styles.canvas} />
     );
   }
 }
@@ -158,4 +161,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Canvas);
+const mapDispatchToProps = dispatch => {
+  return {
+    onLoadImageSuccess: () => dispatch(actions.loadImageSuccess()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
