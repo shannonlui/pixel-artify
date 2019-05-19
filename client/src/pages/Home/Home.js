@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../store/actions';
 import styles from './Home.module.css';
-import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
+import Toolbar from '../../components/Toolbar/Toolbar';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
 
 class Home extends Component {

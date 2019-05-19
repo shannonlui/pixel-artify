@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import styles from './Canvas.module.css';
 import * as actions from '../../../store/actions';
-import ColorThief from '../../../utils/color-thief/color-thief';
 import { getColorDifference } from '../../../utils/colorDifference';
 
 class Canvas extends Component {
@@ -11,10 +10,6 @@ class Canvas extends Component {
     super(props);
 
     this.canvas = React.createRef();
-    this.colorThief = new ColorThief();
-    this.state = {
-      palette: []
-    };
   }
 
   componentDidMount() {
@@ -27,25 +22,9 @@ class Canvas extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    let img = this.props.img;
-
-    // Update colors in palette
-    if (prevProps.colorCount !== this.props.colorCount) {
-      let palette = [];
-      if (this.props.colorCount > 0 && this.props.colorCount < 101) {
-        palette = this.colorThief.getPalette(img, this.props.colorCount);
-      }
-      this.setState({palette: palette});
-    }
-
-    this.pixelate(img, +this.props.pixelSize);
-    this.adjustColors(this.props.contrast, this.props.brightness, this.props.saturation);
-  }
-
-  setCanvasDimensions(canvas, width, height) {
-    canvas.width = width;
-    canvas.height = height;
+  componentDidUpdate() {
+    this.pixelate(this.props.img, +this.props.pixelSize);
+    this.adjustColors();
   }
 
   pixelate = (img, pixelSize) => {
@@ -53,7 +32,8 @@ class Canvas extends Component {
     const ctx = canvas.getContext('2d');
     const width = img.width;
     const height = img.height;
-    this.setCanvasDimensions(canvas, width, height);
+    canvas.width = width;
+    canvas.height = height;
     
     // Draw the original image to get the image data
     ctx.drawImage(img, 0, 0);
@@ -72,8 +52,8 @@ class Canvas extends Component {
         let blue = imgData[pos + 2];
         let alpha = imgData[pos + 3];
         if (alpha > 0) alpha = 255;
-        if (this.state.palette && this.state.palette.length > 0) {
-          [red, green, blue] = this.getClosestColor(this.state.palette, [red, green, blue]);
+        if (this.props.palette && this.props.palette.length > 0) {
+          [red, green, blue] = this.getClosestColor(this.props.palette, [red, green, blue]);
         }
         ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
         ctx.fillRect(x, y, pixelSize, pixelSize);
@@ -108,39 +88,28 @@ class Canvas extends Component {
     return closest;
   }
 
-  adjustColors = (contrast, brightness, saturation) => {
+  adjustColors = () => {
     const canvas = this.canvas.current;
     const ctx = canvas.getContext('2d');
-    let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    if (contrast !== 0 || brightness !== 0) {
-      this.adjustContrastAndBrightness(imgData.data, contrast, brightness);
+    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const d = imgData.data;
+
+    const saturation = (this.props.saturation / 100) + 1;
+    const brightness = this.props.brightness * 0.75;
+    const contrast = (this.props.contrast / 100) + 1;
+    const con = 128 * (1 - contrast);
+
+    // Adjust the saturation, brightness, and contrast of each pixel
+    for (let i = 0; i < d.length; i += 4) {
+      const gray = d[i] * 0.3086 + d[i + 1] * 0.6094 + d[i + 2] * 0.0820;
+      const sat = gray * (1 - saturation);
+
+      d[i] = (d[i] * saturation + sat + brightness) * contrast + con;
+      d[i + 1] = (d[i + 1] * saturation + sat + brightness) * contrast + con;
+      d[i + 2] = (d[i + 2] * saturation + sat + brightness) * contrast + con;
     }
-    if (saturation !== 0) {
-      this.adjustSaturation(imgData.data, saturation);
-    }
+
     ctx.putImageData(imgData, 0, 0);
-  }
-
-  adjustContrastAndBrightness(imgData, contrast, brightness) {
-    brightness = brightness * 0.75;
-    contrast = (contrast / 100) + 1;
-    const intercept = 128 * (1 - contrast);
-    for (let i = 0; i < imgData.length; i += 4) {
-      imgData[i] = imgData[i] * contrast + intercept + brightness;
-      imgData[i + 1] = imgData[i + 1] * contrast + intercept + brightness;
-      imgData[i + 2] = imgData[i + 2] * contrast + intercept + brightness;
-    }
-  }
-
-  adjustSaturation(imgData, saturation) {
-    saturation = (saturation / 100) + 1;
-    for (let i = 0; i < imgData.length; i += 4) {
-      const gray = imgData[i] * 0.3086 + imgData[i + 1] * 0.6094 + imgData[i + 2] * 0.0820;
-      const intercept = gray * (1 - saturation);
-      imgData[i] = imgData[i] * saturation + intercept;
-      imgData[i + 1] = imgData[i + 1] * saturation + intercept;
-      imgData[i + 2] = imgData[i + 2] * saturation + intercept;
-    }
   }
 
   render() {
@@ -157,7 +126,8 @@ const mapStateToProps = state => {
     contrast: state.contrast,
     brightness: state.brightness,
     saturation: state.saturation,
-    colorCount: state.colorCount
+    colorCount: state.colorCount,
+    palette: state.colorPalette
   };
 };
 

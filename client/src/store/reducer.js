@@ -1,13 +1,12 @@
 import * as actionTypes from './actionTypes';
 import { updateObject } from '../utils/utility';
-
 import testImg from '../assets/images/car.png';
 
 const createTestImage = () => {
   const img = new Image();
   img.src = testImg;
   return img;
-}
+};
 
 const initialState = {
   loading: false,
@@ -16,7 +15,8 @@ const initialState = {
   contrast: 0,
   brightness: 0,
   saturation: 0,
-  colorCount: ''
+  colorCount: '',
+  colorPalette: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,9 +34,13 @@ const reducer = (state = initialState, action) => {
     case actionTypes.UPDATE_SATURATION:
       return updateObject(state, {saturation: action.saturation});
     case actionTypes.UPDATE_COLOR_COUNT:
-      return updateObject(state, {colorCount: action.colorCount});
+      return updateObject(state, {
+        colorCount: action.colorCount, 
+        colorPalette: action.colorPalette
+      });
+    default:
+      return state;
   }
-  return state;
 };
 
 export default reducer;

@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import ColorThief from '../utils/color-thief/color-thief';
 
 export const loadImage = (image) => {
   return {
@@ -43,9 +44,15 @@ export const updateSaturation = (saturation) => {
 };
 
 
-export const updateColorCount = (colorCount) => {
+export const updateColorCount = (colorCount, image) => {
+  const colorThief = new ColorThief();
+  let palette = [];
+  if (colorCount > 0 && colorCount < 51) {
+    palette = colorThief.getPalette(image, colorCount);
+  }
   return {
     type: actionTypes.UPDATE_COLOR_COUNT,
-    colorCount: colorCount
+    colorCount: colorCount,
+    colorPalette: palette
   };
 };

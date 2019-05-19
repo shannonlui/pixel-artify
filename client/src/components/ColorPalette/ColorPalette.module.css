@@ -1,0 +1,22 @@
+.palette {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+  color: white;
+  width: 120px;
+}
+
+.square {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 2px solid white;
+  margin-right: 10px;
+}

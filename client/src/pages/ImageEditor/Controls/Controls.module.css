@@ -29,3 +29,11 @@
   width: 100%;
   margin-bottom: 40px;
 }
+
+.error {
+  color: #EEE;
+  font-style: italic;
+  text-align: right;
+  border-top: 2px solid red;
+  padding-top: 4px;
+}

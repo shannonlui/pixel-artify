@@ -152,24 +152,22 @@ ColorThief.prototype.getPalette = function(sourceImage, colorCount, quality) {
  * Copyright 2010 Stanford Visualization Group
  * Licensed under the BSD License: http://www.opensource.org/licenses/bsd-license.php
  */
-if (!pv) {
-    var pv = {
-        map: function(array, f) {
-          var o = {index: null};
-          return f ? array.map(function(d, i) { o.index = i; return f.call(o, d); }) : array.slice();
-        },
-        naturalOrder: function(a, b) {
-            return (a < b) ? -1 : ((a > b) ? 1 : 0);
-        },
-        sum: function(array, f) {
-          var o = {};
-          return array.reduce(f ? function(p, d, i) { o.index = i; return p + f.call(o, d); } : function(p, d) { return p + d; }, 0);
-        },
-        max: function(array, f) {
-          return Math.max.apply(null, f ? pv.map(array, f) : array);
-        }
-    };
-}
+var pv = {
+    map: function(array, f) {
+        var o = {index: null};
+        return f ? array.map(function(d, i) { o.index = i; return f.call(o, d); }) : array.slice();
+    },
+    naturalOrder: function(a, b) {
+        return (a < b) ? -1 : ((a > b) ? 1 : 0);
+    },
+    sum: function(array, f) {
+        var o = {};
+        return array.reduce(f ? function(p, d, i) { o.index = i; return p + f.call(o, d); } : function(p, d) { return p + d; }, 0);
+    },
+    max: function(array, f) {
+        return Math.max.apply(null, f ? pv.map(array, f) : array);
+    }
+};
 
 
 
@@ -445,7 +443,7 @@ var MMCQ = (function() {
             bw = vbox.b2 - vbox.b1 + 1,
             maxw = pv.max([rw, gw, bw]);
         // only one pixel, no split
-        if (vbox.count() == 1) {
+        if (vbox.count() === 1) {
             return [vbox.copy()];
         }
         /* Find the partial sum arrays along the selected axis. */
@@ -453,7 +451,7 @@ var MMCQ = (function() {
             partialsum = [],
             lookaheadsum = [],
             i, j, k, sum, index;
-        if (maxw == rw) {
+        if (maxw === rw) {
             for (i = vbox.r1; i <= vbox.r2; i++) {
                 sum = 0;
                 for (j = vbox.g1; j <= vbox.g2; j++) {
@@ -466,7 +464,7 @@ var MMCQ = (function() {
                 partialsum[i] = total;
             }
         }
-        else if (maxw == gw) {
+        else if (maxw === gw) {
             for (i = vbox.g1; i <= vbox.g2; i++) {
                 sum = 0;
                 for (j = vbox.r1; j <= vbox.r2; j++) {
@@ -522,8 +520,8 @@ var MMCQ = (function() {
 
         }
         // determine the cut planes
-        return maxw == rw ? doCut('r') :
-            maxw == gw ? doCut('g') :
+        return maxw === rw ? doCut('r') :
+            maxw === gw ? doCut('g') :
             doCut('b');
     }
 
@@ -536,8 +534,7 @@ var MMCQ = (function() {
 
         // XXX: check color content and convert to grayscale if insufficient
 
-        var histo = getHisto(pixels),
-            histosize = 1 << (3 * sigbits);
+        var histo = getHisto(pixels);
 
         // check that we aren't below maxcolors already
         var nColors = 0;
