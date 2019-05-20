@@ -24,3 +24,29 @@
   text-shadow: 4px 4px #ef6461;
 }
 
+@media only screen and (max-width: 768px) {
+  .bg {
+    background: linear-gradient( rgba(0,0,0,0.4), rgba(0, 0, 0, 0.4) ), url('../../assets/images/home-bg.png');
+    background-position: center top;
+  }
+
+  .content {
+    top: 50%; 
+    right: 50%;
+    transform: translate(50%,-50%);
+    text-align: center;
+    width: 100%;
+  }
+
+  .content h1 {
+    max-width: none;
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .content h1 {
+    font-size: 3em;
+  }
+}

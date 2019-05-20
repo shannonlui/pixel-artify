@@ -29,3 +29,9 @@
 .light .logo {
   color: #ef6461;
 }
+
+@media only screen and (max-width: 768px) {
+  .toolbar {
+    justify-content: center;
+  }
+}

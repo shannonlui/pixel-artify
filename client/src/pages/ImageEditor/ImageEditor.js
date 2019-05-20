@@ -17,6 +17,7 @@ class ImageEditor extends Component {
           <Controls exportImage={() => this.exportImage()} />
         </div>
         <div className={styles.content}>
+          <div className={styles.previewLabel}>Preview</div>
           <Canvas setExportImage={click => this.exportImage = click} />
           {this.props.loading ? <Loading /> : null}
         </div>
