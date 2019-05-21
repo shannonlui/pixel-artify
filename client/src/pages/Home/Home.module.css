@@ -24,6 +24,25 @@
   text-shadow: 4px 4px #ef6461;
 }
 
+.sample {
+  display: inline-block;
+  cursor: pointer;
+  padding: 16px 30px;
+  margin-left: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  background: #888;
+  box-shadow: 5px 5px;
+  text-align: center;
+  border: none;
+}
+
+.sample:hover {
+  background: white;
+  color: #888;
+}
+
 @media only screen and (max-width: 768px) {
   .bg {
     background: linear-gradient( rgba(0,0,0,0.4), rgba(0, 0, 0, 0.4) ), url('../../assets/images/home-bg.png');

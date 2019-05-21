@@ -1,3 +1,7 @@
+.uploader {
+  display: inline-block;
+}
+
 .uploader input[type=file] { 
   visibility: hidden;
   position: absolute;
@@ -7,11 +11,15 @@
   display: inline-block;
   cursor: pointer;
   padding: 16px 30px;
-  margin: 20px;
+  margin: 20px 0;
   font-weight: bold;
   text-transform: uppercase;
   color: white;
   background: #ef6461;
-  font-size: 1.2em;
   box-shadow: 5px 5px;
+}
+
+.uploader label:hover {
+  background: white;
+  color: #ef6461;
 }
