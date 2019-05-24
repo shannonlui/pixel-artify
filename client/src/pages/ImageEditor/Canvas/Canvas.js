@@ -63,8 +63,16 @@ class Canvas extends Component {
   }
 
   saveCanvas = () => {
-    const canvas = this.canvas.current;
-    saveAs(canvas.toDataURL('image/png'), 'pixelartify.png');
+    var ua = window.navigator.userAgent;
+    var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+    var webkit = !!ua.match(/WebKit/i);
+    var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
+    const canvasURL = this.canvas.current.toDataURL('image/png');
+    if (iOSSafari) {
+      window.open(canvasURL, '_blank');
+    } else {
+      saveAs(canvasURL, 'pixelartify.png');
+    }
   }
 
   getClosestColor(colors, target) {
