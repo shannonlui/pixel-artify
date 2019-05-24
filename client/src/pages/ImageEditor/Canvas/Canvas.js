@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { saveAs } from 'file-saver';
 
 import styles from './Canvas.module.css';
 import * as actions from '../../../store/actions';
@@ -63,15 +64,7 @@ class Canvas extends Component {
 
   saveCanvas = () => {
     const canvas = this.canvas.current;
-    if (canvas.msToBlob) {
-      // Save canvas as an image in IE
-      const blob = canvas.msToBlob();
-      window.navigator.msSaveBlob(blob, 'canvas.png');
-    } else { 
-      // Save canvas as an image in Chrome/Firefox
-      const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-      window.location.href = image;
-    }
+    saveAs(canvas.toDataURL('image/png'), 'pixelartify.png');
   }
 
   getClosestColor(colors, target) {
