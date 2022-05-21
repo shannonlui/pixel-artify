@@ -10,6 +10,9 @@ class Canvas extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isDrawing: false
+    };
     this.canvas = React.createRef();
   }
 
@@ -21,11 +24,54 @@ class Canvas extends Component {
       this.props.onLoadImageSuccess();
       this.pixelate(img, +this.props.pixelSize);
     }
+
+    // Add listeners for drawing on the canvas using a mouse (from user input)
+    this.canvas.current.addEventListener('mousedown', this.handeStartDrawing);
+    this.canvas.current.addEventListener('mouseup', this.handleStopDrawing);
+    this.canvas.current.addEventListener('mousemove', this.handleContinueDrawing);
   }
 
-  componentDidUpdate() {
-    this.pixelate(this.props.img, +this.props.pixelSize);
-    this.adjustColors();
+  componentDidUpdate(prevProps) {
+    if (this.props.pixelSize !== prevProps.pixelSize || this.props.contrast !== prevProps.contrast
+      || this.props.brightness !== prevProps.brightness || this.props.saturation !== prevProps.saturation
+      || this.colorCount !== prevProps.colorCount) 
+    {
+      this.pixelate(this.props.img, +this.props.pixelSize);
+      this.adjustColors();
+    }
+  }
+
+  handeStartDrawing = (event) => {
+    this.setState({isDrawing: true});
+    this.drawSquare(event);
+  }
+
+  handleStopDrawing = (event) => {
+    this.setState({isDrawing: false})
+  }
+
+  handleContinueDrawing = (event) => {
+    if (this.state.isDrawing)
+      this.drawSquare(event);
+  }
+
+  getPosition = (event) => {
+    var rect = this.canvas.current.getBoundingClientRect();
+    return { 
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+  }
+
+  drawSquare = (event) => {
+    const canvas = this.canvas.current;
+    const ctx = canvas.getContext('2d');
+    const pixelSize = +this.props.pixelSize;
+    const coord = this.getPosition(event);
+    const x = Math.floor(coord.x / pixelSize) * pixelSize;
+    const y = Math.floor(coord.y / pixelSize) * pixelSize;
+    ctx.fillStyle = 'red'
+    ctx.fillRect(x, y, pixelSize, pixelSize);
   }
 
   pixelate = (img, pixelSize) => {
