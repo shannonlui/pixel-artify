@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import styles from './ImageEditor.module.css';
 
+import FileMenu from './FileMenu/FileMenu';
 import Controls from './Controls/Controls';
 import Canvas from './Canvas/Canvas';
 import Loading from '../../components/Loading/Loading';
@@ -13,7 +14,12 @@ class ImageEditor extends Component {
     return (
       <div>
         <div className={styles.sidebar}>
-          <Link to="/" className={styles.logo}>pixel artify</Link>
+          <div className={styles.logo}>
+            <img src={require('../../assets/images/logo-left.png')} className={styles.logoLeft} />
+            pixel artify
+            <img src={require('../../assets/images/logo-right.png')} className={styles.logoRight} />
+          </div>
+          <FileMenu exportImage={() => this.exportImage()} history={this.props.history}/>
           <Controls exportImage={() => this.exportImage()} />
         </div>
         <div className={styles.content}>

@@ -6,6 +6,7 @@
   height: 8px;
   outline: none;
   border: none;
+  background: #ddd;
 }
 
 .slider::-webkit-slider-thumb {

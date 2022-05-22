@@ -34,7 +34,7 @@ class Canvas extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.pixelSize !== prevProps.pixelSize || this.props.contrast !== prevProps.contrast
       || this.props.brightness !== prevProps.brightness || this.props.saturation !== prevProps.saturation
-      || this.colorCount !== prevProps.colorCount) 
+      || this.props.colorCount != prevProps.colorCount) 
     {
       this.pixelate(this.props.img, +this.props.pixelSize);
       this.adjustColors();

@@ -30,6 +30,7 @@ const Controls = (props) => {
         <input type="number" 
             value={props.colorCount}
             onChange={(e) => props.onChangeColorCount(e.target.value, props.img)}
+            className={styles.colorCountInput}
             placeholder="Max number of colors" />   
         {(props.colorCount > 1 && props.colorCount < 51) ? 
             null : <p className={styles.error}>Value must be between 2 and 50</p>}
