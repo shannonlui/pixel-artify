@@ -11,13 +11,14 @@ class Canvas extends Component {
     super(props);
 
     this.state = {
-      isDrawing: false
+      isPainting: false
     };
     this.canvas = React.createRef();
   }
 
   componentDidMount() {
     this.props.setExportImage(this.saveCanvas);
+    this.props.setResetCanvas(this.resetCanvas);
     
     let img = this.props.img;
     img.onload = () => {
@@ -25,33 +26,39 @@ class Canvas extends Component {
       this.pixelate(img, +this.props.pixelSize);
     }
 
-    // Add listeners for drawing on the canvas using a mouse (from user input)
-    this.canvas.current.addEventListener('mousedown', this.handeStartDrawing);
-    this.canvas.current.addEventListener('mouseup', this.handleStopDrawing);
-    this.canvas.current.addEventListener('mousemove', this.handleContinueDrawing);
+    // Add listeners for painting on the canvas using a mouse (from user input)
+    this.canvas.current.addEventListener('mousedown', this.handeStartPainting);
+    this.canvas.current.addEventListener('mouseup', this.handleStopPainting);
+    this.canvas.current.addEventListener('mousemove', this.handleContinuePainting);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.pixelSize !== prevProps.pixelSize || this.props.contrast !== prevProps.contrast
       || this.props.brightness !== prevProps.brightness || this.props.saturation !== prevProps.saturation
-      || this.props.colorCount != prevProps.colorCount) 
+      || this.props.colorCount !== prevProps.colorCount) 
     {
-      this.pixelate(this.props.img, +this.props.pixelSize);
-      this.adjustColors();
+      this.resetCanvas();
     }
   }
 
-  handeStartDrawing = (event) => {
-    this.setState({isDrawing: true});
+  resetCanvas = () => {
+    this.pixelate(this.props.img, +this.props.pixelSize);
+    this.adjustColors();
+  }
+
+  handeStartPainting = (event) => {
+    if (!this.props.isPaintEnabled)
+      return;
+    this.setState({isPainting: true});
     this.drawSquare(event);
   }
 
-  handleStopDrawing = (event) => {
-    this.setState({isDrawing: false})
+  handleStopPainting = (event) => {
+    this.setState({isPainting: false});
   }
 
-  handleContinueDrawing = (event) => {
-    if (this.state.isDrawing)
+  handleContinuePainting = (event) => {
+    if (this.props.isPaintEnabled && this.state.isPainting)
       this.drawSquare(event);
   }
 
@@ -169,6 +176,7 @@ class Canvas extends Component {
 const mapStateToProps = state => {
   return {
     img: state.image,
+    isPaintEnabled: state.isPaintEnabled,
     pixelSize: state.pixelSize,
     contrast: state.contrast,
     brightness: state.brightness,

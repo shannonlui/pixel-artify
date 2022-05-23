@@ -56,3 +56,9 @@ export const updateColorCount = (colorCount, image) => {
     colorPalette: palette
   };
 };
+
+export const enablePaint = () => {
+  return {
+    type: actionTypes.ENABLE_PAINT
+  };
+}

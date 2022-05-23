@@ -84,7 +84,7 @@ const Controls = (props) => {
       }
       <button
         className={styles.export}
-        onClick={props.exportImage}>Export</button>    
+        onClick={props.onEnablePaint}>Continue</button>    
     </div>
   );
 };
@@ -108,6 +108,7 @@ const mapDispatchToProps = dispatch => {
     onChangeBrightness: (brightness) => dispatch(actions.updateBrightness(brightness)),
     onChangeSaturation: (saturation) => dispatch(actions.updateSaturation(saturation)),
     onChangeColorCount: (colorCount, image) => dispatch(actions.updateColorCount(colorCount, image)),
+    onEnablePaint: () => dispatch(actions.enablePaint())
   };
 };
 

@@ -20,6 +20,7 @@ function FileMenu(props) {
     // Reset by re-uploading the image
     props.onLoadImage(props.img);
     props.onLoadImageSuccess();
+    props.resetCanvas();
     setShowResetModal(false);
   };
 

@@ -19,12 +19,17 @@ class ImageEditor extends Component {
             pixel artify
             <img src={require('../../assets/images/logo-right.png')} className={styles.logoRight} />
           </div>
-          <FileMenu exportImage={() => this.exportImage()} history={this.props.history}/>
-          <Controls exportImage={() => this.exportImage()} />
+          <FileMenu 
+            exportImage={() => this.exportImage()}
+            resetCanvas={() => this.resetCanvas()}
+            history={this.props.history}/>
+          {!this.props.isPaintEnabled && <Controls />}
         </div>
         <div className={styles.content}>
           <div className={styles.previewLabel}>Preview</div>
-          <Canvas setExportImage={click => this.exportImage = click} />
+          <Canvas 
+            setExportImage={click => this.exportImage = click}
+            setResetCanvas={click => this.resetCanvas = click} />
           {this.props.loading ? <Loading /> : null}
         </div>
       </div>
@@ -34,7 +39,8 @@ class ImageEditor extends Component {
 
 const mapStateToProps = state => {
   return {
-    loading: state.loading
+    loading: state.loading,
+    isPaintEnabled: state.isPaintEnabled
   };
 };
 
