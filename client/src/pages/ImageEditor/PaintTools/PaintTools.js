@@ -6,6 +6,8 @@ import { IoIosBrush } from "react-icons/io";
 
 import * as actions from '../../../store/actions';
 import styles from './PaintTools.module.css';
+import { TOOL_TYPES } from '../../../constants/constants';
+import Button from '../../../components/Button/Button';
 
 class PaintTools extends Component {
   constructor(props) {
@@ -14,6 +16,17 @@ class PaintTools extends Component {
 
   handleChangeColor = (color) => {
     this.props.onChangeColor(color.hex);
+  };
+
+  renderToolButton = (toolType, icon) => {
+    const buttonStyle = (this.props.toolType === toolType) ? styles.selected : null;
+    return (
+      <Button
+        onClick={() => this.props.onChangeToolType(toolType)}
+        className={buttonStyle}>
+        {icon}
+      </Button>
+    );
   };
 
   render() {
@@ -30,7 +43,9 @@ class PaintTools extends Component {
         <div className={styles.toolsContainer}>
           <div className={styles.toolsLabel}>Paint</div>
           <div className={styles.tools}>
-            <button className={styles.selected}><IoIosBrush /></button>
+            {this.renderToolButton(TOOL_TYPES.PAINT, <IoIosBrush />)}
+            {this.renderToolButton(TOOL_TYPES.COLOR_PICK, <CgColorPicker />)}
+            {this.renderToolButton(TOOL_TYPES.ERASE, <CgErase />)}
           </div>
         </div>
         <div className={styles.pickerContainer}>
@@ -47,13 +62,15 @@ class PaintTools extends Component {
 
 const mapStateToProps = state => {
   return {
-    color: state.paintColor
+    color: state.paintColor,
+    toolType: state.toolType,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onChangeColor: (color) => dispatch(actions.updatePaintColor(color))
+    onChangeColor: (color) => dispatch(actions.updatePaintColor(color)),
+    onChangeToolType: (toolType) => dispatch(actions.updateToolType(toolType)),
   };
 };
 

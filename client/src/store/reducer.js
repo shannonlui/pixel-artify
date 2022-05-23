@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import { updateObject } from '../utils/utility';
 import testImg from '../assets/images/car.png';
+import { TOOL_TYPES } from '../constants/constants';
 
 const createTestImage = () => {
   const img = new Image();
@@ -18,7 +19,8 @@ const initialState = {
   brightness: 0,
   saturation: 0,
   colorCount: '',
-  colorPalette: []
+  colorPalette: [],
+  toolType: TOOL_TYPES.PAINT,
 };
 
 const reducer = (state = initialState, action) => {
@@ -44,6 +46,8 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, {isPaintEnabled: true});
     case actionTypes.UPDATE_PAINT_COLOR:
       return updateObject(state, {paintColor: action.paintColor});
+    case actionTypes.UPDATE_TOOL_TYPE:
+      return updateObject(state, {toolType: action.toolType});
     default:
       return state;
   }

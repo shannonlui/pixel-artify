@@ -68,3 +68,10 @@ export const updatePaintColor = (color) => {
     paintColor: color
   };
 };
+
+export const updateToolType = (toolType) => {
+  return {
+    type: actionTypes.UPDATE_TOOL_TYPE,
+    toolType: toolType
+  };
+};

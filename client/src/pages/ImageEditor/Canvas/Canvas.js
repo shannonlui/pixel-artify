@@ -4,7 +4,8 @@ import { saveAs } from 'file-saver';
 
 import styles from './Canvas.module.css';
 import * as actions from '../../../store/actions';
-import { getColorDifference } from '../../../utils/colorDifference';
+import { getColorDifference, convertRgbToHex } from '../../../utils/colorDifference';
+import { TOOL_TYPES } from '../../../constants/constants';
 
 class Canvas extends Component {
   constructor(props) {
@@ -49,8 +50,18 @@ class Canvas extends Component {
   handeStartPainting = (event) => {
     if (!this.props.isPaintEnabled)
       return;
-    this.setState({isPainting: true});
-    this.drawSquare(event);
+    if (this.props.toolType === TOOL_TYPES.COLOR_PICK) {
+      // Get the color from the pixel that was touched
+      const ctx = this.canvas.current.getContext('2d');
+      const coord = this.getPosition(event);
+      const imgData = ctx.getImageData(coord.x, coord.y, 1, 1).data;
+      const hex = convertRgbToHex(imgData[0], imgData[1], imgData[2]);
+      this.props.onChangeColor(hex);
+    } else {
+      // Start painting
+      this.setState({isPainting: true});
+      this.drawSquare(event);
+    }
   }
 
   handleStopPainting = (event) => {
@@ -78,7 +89,11 @@ class Canvas extends Component {
     const x = Math.floor(coord.x / pixelSize) * pixelSize;
     const y = Math.floor(coord.y / pixelSize) * pixelSize;
     ctx.fillStyle = this.props.paintColor;
-    ctx.fillRect(x, y, pixelSize, pixelSize);
+    if (this.props.toolType === TOOL_TYPES.ERASE) {
+      ctx.clearRect(x, y, pixelSize, pixelSize);
+    } else {
+      ctx.fillRect(x, y, pixelSize, pixelSize);
+    }
   }
 
   pixelate = (img, pixelSize) => {
@@ -183,13 +198,15 @@ const mapStateToProps = state => {
     brightness: state.brightness,
     saturation: state.saturation,
     colorCount: state.colorCount,
-    palette: state.colorPalette
+    palette: state.colorPalette,
+    toolType: state.toolType,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onLoadImageSuccess: () => dispatch(actions.loadImageSuccess()),
+    onChangeColor: (color) => dispatch(actions.updatePaintColor(color)),
   };
 };
 

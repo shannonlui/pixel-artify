@@ -10,6 +10,11 @@ export function convertRgbToLgb(rgb) {
   return lab;
 }
 
+// https://stackoverflow.com/a/5624139
+export function convertRgbToHex(r, g, b) {
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
 /**
  * Convert Standard-RGB to XYZ color space. Adapted from 
  * http://www.easyrgb.com/en/math.php

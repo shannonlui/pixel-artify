@@ -25,8 +25,12 @@
   background: grey;
 }
 
-.tools .selected {
+.tools .selected, .tools .selected:hover {
   background: #ef6461;
+}
+
+.tools button svg {
+  margin-right: 0;
 }
 
 .pickerContainer {
