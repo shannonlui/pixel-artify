@@ -12,6 +12,7 @@ const initialState = {
   loading: false,
   image: createTestImage(),
   isPaintEnabled: false,
+  paintColor: '#000',
   pixelSize: 4,
   contrast: 0,
   brightness: 0,
@@ -41,6 +42,8 @@ const reducer = (state = initialState, action) => {
       });
     case actionTypes.ENABLE_PAINT:
       return updateObject(state, {isPaintEnabled: true});
+    case actionTypes.UPDATE_PAINT_COLOR:
+      return updateObject(state, {paintColor: action.paintColor});
     default:
       return state;
   }

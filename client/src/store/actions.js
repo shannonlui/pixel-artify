@@ -43,7 +43,6 @@ export const updateSaturation = (saturation) => {
   };
 };
 
-
 export const updateColorCount = (colorCount, image) => {
   const colorThief = new ColorThief();
   let palette = [];
@@ -62,3 +61,10 @@ export const enablePaint = () => {
     type: actionTypes.ENABLE_PAINT
   };
 }
+
+export const updatePaintColor = (color) => {
+  return {
+    type: actionTypes.UPDATE_PAINT_COLOR,
+    paintColor: color
+  };
+};

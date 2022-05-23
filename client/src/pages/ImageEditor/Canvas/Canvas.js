@@ -77,7 +77,7 @@ class Canvas extends Component {
     const coord = this.getPosition(event);
     const x = Math.floor(coord.x / pixelSize) * pixelSize;
     const y = Math.floor(coord.y / pixelSize) * pixelSize;
-    ctx.fillStyle = 'red'
+    ctx.fillStyle = this.props.paintColor;
     ctx.fillRect(x, y, pixelSize, pixelSize);
   }
 
@@ -177,6 +177,7 @@ const mapStateToProps = state => {
   return {
     img: state.image,
     isPaintEnabled: state.isPaintEnabled,
+    paintColor: state.paintColor,
     pixelSize: state.pixelSize,
     contrast: state.contrast,
     brightness: state.brightness,

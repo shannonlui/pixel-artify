@@ -8,6 +8,7 @@ import FileMenu from './FileMenu/FileMenu';
 import Controls from './Controls/Controls';
 import Canvas from './Canvas/Canvas';
 import Loading from '../../components/Loading/Loading';
+import PaintTools from './PaintTools/PaintTools';
 
 class ImageEditor extends Component {
   render() {
@@ -23,7 +24,7 @@ class ImageEditor extends Component {
             exportImage={() => this.exportImage()}
             resetCanvas={() => this.resetCanvas()}
             history={this.props.history}/>
-          {!this.props.isPaintEnabled && <Controls />}
+          {this.props.isPaintEnabled ? <PaintTools /> : <Controls />}
         </div>
         <div className={styles.content}>
           <div className={styles.previewLabel}>Preview</div>
