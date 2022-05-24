@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "file-saver": "^2.0.2",
+    "pica": "^9.0.1",
     "react": "^16.8.6",
     "react-color": "^2.19.3",
     "react-dom": "^16.8.6",

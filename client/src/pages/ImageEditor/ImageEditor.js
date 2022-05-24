@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import styles from './ImageEditor.module.css';
@@ -31,7 +30,7 @@ class ImageEditor extends Component {
           <Canvas 
             setExportImage={click => this.exportImage = click}
             setResetCanvas={click => this.resetCanvas = click} />
-          {this.props.loading ? <Loading /> : null}
+          {this.props.loading && <Loading />}
         </div>
       </div>
     );

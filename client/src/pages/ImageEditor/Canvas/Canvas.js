@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { saveAs } from 'file-saver';
+import Pica from 'pica';
 
 import styles from './Canvas.module.css';
 import * as actions from '../../../store/actions';
@@ -12,6 +13,7 @@ class Canvas extends Component {
     super(props);
 
     this.state = {
+      img: null,
       isPainting: false
     };
     this.canvas = React.createRef();
@@ -21,10 +23,8 @@ class Canvas extends Component {
     this.props.setExportImage(this.saveCanvas);
     this.props.setResetCanvas(this.resetCanvas);
     
-    let img = this.props.img;
-    img.onload = () => {
-      this.props.onLoadImageSuccess();
-      this.pixelate(img, +this.props.pixelSize);
+    this.props.origImg.onload = () => {
+      this.resizeImage(this.props.origImg);
     }
 
     // Add listeners for painting on the canvas using a mouse (from user input)
@@ -43,7 +43,7 @@ class Canvas extends Component {
   }
 
   resetCanvas = () => {
-    this.pixelate(this.props.img, +this.props.pixelSize);
+    this.pixelate(this.state.img, +this.props.pixelSize);
     this.adjustColors();
   }
 
@@ -93,6 +93,31 @@ class Canvas extends Component {
       ctx.clearRect(x, y, pixelSize, pixelSize);
     } else {
       ctx.fillRect(x, y, pixelSize, pixelSize);
+    }
+  }
+
+  resizeImage = (img) => {
+    const canvas = this.canvas.current;
+    const maxWidth = window.innerWidth - 340;
+    const maxHeight = window.innerHeight - 20;
+    if (img.width > maxWidth || img.height > maxHeight) {
+      const ratio = Math.max(img.width / maxWidth, img.height / maxHeight);
+      canvas.width = Math.round(img.width / ratio);
+      canvas.height = Math.round(img.height / ratio);
+      Pica().resize(img, canvas)
+        .then(result => this.setResizedImage(result.toDataURL()));
+    } else {
+      this.setResizedImage(img.src);
+    }
+  }
+
+  setResizedImage = (imgSrc) => {
+    const resizedImg = new Image();
+    resizedImg.src = imgSrc;
+    resizedImg.onload = () => {
+      this.setState({img: resizedImg});
+      this.pixelate(resizedImg, +this.props.pixelSize);
+      this.props.onLoadImageSuccess();
     }
   }
 
@@ -190,7 +215,7 @@ class Canvas extends Component {
 
 const mapStateToProps = state => {
   return {
-    img: state.image,
+    origImg: state.image,
     isPaintEnabled: state.isPaintEnabled,
     paintColor: state.paintColor,
     pixelSize: state.pixelSize,
