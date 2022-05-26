@@ -26,7 +26,6 @@ class ImageEditor extends Component {
           {this.props.isPaintEnabled ? <PaintTools /> : <Controls />}
         </div>
         <div className={styles.content}>
-          <div className={styles.previewLabel}>Preview</div>
           <Canvas 
             setExportImage={click => this.exportImage = click}
             setResetCanvas={click => this.resetCanvas = click} />

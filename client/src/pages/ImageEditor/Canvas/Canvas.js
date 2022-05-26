@@ -98,8 +98,10 @@ class Canvas extends Component {
 
   resizeImage = (img) => {
     const canvas = this.canvas.current;
-    const maxWidth = window.innerWidth - 340;
-    const maxHeight = window.innerHeight - 20;
+    // TODO: do not hardcode these numbers here
+    const isMobile = window.innerWidth <= 700
+    const maxWidth = isMobile ? (window.innerWidth - 20) : (window.innerWidth - 340);
+    const maxHeight = isMobile ? 280 : (window.innerHeight - 20);
     if (img.width > maxWidth || img.height > maxHeight) {
       const ratio = Math.max(img.width / maxWidth, img.height / maxHeight);
       canvas.width = Math.round(img.width / ratio);

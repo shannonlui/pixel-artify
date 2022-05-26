@@ -37,22 +37,16 @@
 }
 
 .content {
-  height: 100vh;
+  min-height: 100vh;
   margin-left: 320px;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #444;
 }
 
 .content canvas {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   border: 1px dashed #666;
-}
-
-.previewLabel {
-  display: none;
 }
 
 @media only screen and (max-width: 700px) {
@@ -69,20 +63,5 @@
     margin-left: 0;
     position: fixed;
     bottom: 0;
-  }
-
-  .content canvas {
-    position: static;
-    transform: none;
-    display: block;
-    margin: 20px auto;
-    max-height: 200px;
-  }
-
-  .previewLabel {
-    display: block;
-    color: white;
-    font-weight: bold;
-    margin: 20px 30px;
   }
 }
