@@ -7,6 +7,7 @@ import styles from './Canvas.module.css';
 import * as actions from '../../../store/actions';
 import { getColorDifference, convertRgbToHex } from '../../../utils/colorDifference';
 import { TOOL_TYPES } from '../../../constants/constants';
+import { isDevEnv } from '../../../utils/utility';
 
 class Canvas extends Component {
   constructor(props) {
@@ -31,6 +32,10 @@ class Canvas extends Component {
     this.canvas.current.addEventListener('mousedown', this.handeStartPainting);
     this.canvas.current.addEventListener('mouseup', this.handleStopPainting);
     this.canvas.current.addEventListener('mousemove', this.handleContinuePainting);
+
+    // Trigger a confirmation dialog to ask user if they really want to leave the page
+    if (!isDevEnv())
+      window.onbeforeunload = () => true;
   }
 
   componentDidUpdate(prevProps) {
@@ -40,6 +45,11 @@ class Canvas extends Component {
     {
       this.resetCanvas();
     }
+  }
+
+  componentWillUnmount() { 
+    // Remove the trigger for confirming if user really want to leave the page
+    window.onbeforeunload = null; 
   }
 
   resetCanvas = () => {

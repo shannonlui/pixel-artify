@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import styles from './ImageEditor.module.css';
-
 import FileMenu from './FileMenu/FileMenu';
 import Controls from './Controls/Controls';
 import Canvas from './Canvas/Canvas';
@@ -10,6 +9,21 @@ import Loading from '../../components/Loading/Loading';
 import PaintTools from './PaintTools/PaintTools';
 
 class ImageEditor extends Component {
+  componentDidMount() {
+    this.validateImage()
+  }
+
+  componentDidUpdate() {
+    this.validateImage()
+  }
+
+  validateImage = () => {
+    // Redirect to home page if image does not have source
+    if (this.props.img.src === null || this.props.img.src === "") {
+      this.props.history.push("/")
+    }
+  }
+
   render() {
     return (
       <div>
@@ -39,6 +53,7 @@ class ImageEditor extends Component {
 const mapStateToProps = state => {
   return {
     loading: state.loading,
+    img: state.image,
     isPaintEnabled: state.isPaintEnabled
   };
 };

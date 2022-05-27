@@ -1,11 +1,13 @@
 import * as actionTypes from './actionTypes';
-import { updateObject } from '../utils/utility';
+import { updateObject, isDevEnv } from '../utils/utility';
 import testImg from '../assets/images/car.png';
 import { TOOL_TYPES } from '../constants/constants';
 
 const createTestImage = () => {
   const img = new Image();
-  img.src = testImg;
+  if (isDevEnv()) {
+    img.src = testImg;
+  }
   return img;
 };
 

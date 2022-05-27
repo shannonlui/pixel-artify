@@ -50,7 +50,7 @@ const Controls = (props) => {
       </FormControl>
       <SliderControl 
         label="Pixel Size"
-        minValue="0"
+        minValue="1"
         maxValue="50"
         inputValue={props.pixelSize}
         onChangeValue={props.onChangePixelSize} />

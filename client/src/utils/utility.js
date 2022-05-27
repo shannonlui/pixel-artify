@@ -4,3 +4,5 @@ export const updateObject = (oldObject, updatedValues) => {
       ...updatedValues
   }
 };
+
+export const isDevEnv = () => process.env.NODE_ENV === 'development';
