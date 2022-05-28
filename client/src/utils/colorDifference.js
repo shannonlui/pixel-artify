@@ -1,3 +1,19 @@
+// From a given list of colors, return the color that is the most
+// similar to the given target color.
+export function getClosestColor(colors, target) {
+  let minDiff = Number.MAX_SAFE_INTEGER;
+  let closest = null;
+  const length = colors.length;
+  for (let i = 0; i < length; i++) {
+    let diff = getColorDifference(target, colors[i]);
+    if (diff <= minDiff) {
+      minDiff = diff;
+      closest = colors[i];
+    }
+  }
+  return closest;
+}
+
 export function getColorDifference(rgb1, rgb2) {
   const lab1 = convertRgbToLgb(rgb1);
   const lab2 = convertRgbToLgb(rgb2);
@@ -122,4 +138,22 @@ export function deltaE(labA, labB){
   var deltaHkhsh = deltaH / (sh);
   var i = deltaLKlsl * deltaLKlsl + deltaCkcsc * deltaCkcsc + deltaHkhsh * deltaHkhsh;
   return i < 0 ? 0 : Math.sqrt(i);
+}
+
+// Adjust the saturation, brightness, and contrast of an image
+export function adjustImageColors(img, saturation, brightness, contrast) {
+  const s = (saturation / 100) + 1;
+  const b = brightness * 0.75;
+  const c = (contrast / 100) + 1;
+  const intercept = 128 * (1 - c); // line intercept for contrast https://stackoverflow.com/a/37714937
+
+  for (let i = 0; i < img.length; i += 4) {
+    // Calculate grayness for adjusting saturation https://stackoverflow.com/a/34183839
+    const gray = img[i] * 0.3086 + img[i + 1] * 0.6094 + img[i + 2] * 0.0820;
+    const grayVal = gray * (1 - s);
+    // Update pixel values with saturation, brightness, and contrast adjusted
+    img[i] = (img[i] * s + grayVal + b) * c + intercept;
+    img[i + 1] = (img[i + 1] * s + grayVal + b) * c + intercept;
+    img[i + 2] = (img[i + 2] * s + grayVal + b) * c + intercept;
+  }
 }

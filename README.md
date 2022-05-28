@@ -8,6 +8,8 @@
 
 Pixel Artify is a web-based tool for transforming images into pixel art. Try it out at [https://pixelartify.com](https://pixelartify.com)!
 
+![Demo Screenshot](client/src/assets/images/demo-screenshot.png)
+
 
 ## Getting Started
 
