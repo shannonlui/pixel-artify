@@ -25,15 +25,16 @@ git clone https://github.com/shannonlui/pixel-artify.git
 
 ```
 
-2. Install the required dependencies:
+2. Install the required dependencies in the client directory:
 
 ```sh
 
+cd client
 npm install
 
 ```
 
-4. Run the app in development mode:
+4. Run the client app in development mode:
 
 ```js
 
@@ -45,9 +46,8 @@ npm start
 ## Features
 - [x] Pixelate uploaded images with customizable pixel size
 - [x] Adjust contrast, brightness, saturation, and color palette
-- [x] Paint tools including eraser and color selection
-- [ ] Customizable brush size
-- [ ] Resizable canvas
+- [x] Paint, erase and color selection on canvas
+- [ ] Resizable canvas and image export
 - [ ] Zooming and panning the canvas
 - [ ] Undo or redo changes
 

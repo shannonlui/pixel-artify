@@ -18,6 +18,7 @@ class Canvas extends Component {
       isPainting: false
     };
     this.canvas = React.createRef();
+    this.mouseLayer = React.createRef();
   }
 
   componentDidMount() {
@@ -29,9 +30,10 @@ class Canvas extends Component {
     }
 
     // Add listeners for painting on the canvas using a mouse (from user input)
-    this.canvas.current.addEventListener('mousedown', this.handeStartPainting);
-    this.canvas.current.addEventListener('mouseup', this.handleStopPainting);
-    this.canvas.current.addEventListener('mousemove', this.handleContinuePainting);
+    this.mouseLayer.current.addEventListener('mousedown', this.handeStartPainting);
+    this.mouseLayer.current.addEventListener('mouseup', this.handleStopPainting);
+    this.mouseLayer.current.addEventListener('mousemove', this.handleContinuePainting);
+    this.mouseLayer.current.addEventListener("mouseout", this.handleMouseOut);
 
     // Trigger a confirmation dialog to ask user if they really want to leave the page
     if (!isDevEnv())
@@ -53,7 +55,8 @@ class Canvas extends Component {
   }
 
   resetCanvas = () => {
-    this.pixelate(this.state.img, +this.props.pixelSize);
+    // Redraw the pixelated image. This will clear any painting done by the user!
+    this.pixelate(this.state.img, this.props.pixelSize);
     this.adjustColors();
   }
 
@@ -70,7 +73,7 @@ class Canvas extends Component {
     } else {
       // Start painting
       this.setState({isPainting: true});
-      this.drawSquare(event);
+      this.paintOnCanvas(event);
     }
   }
 
@@ -79,8 +82,26 @@ class Canvas extends Component {
   }
 
   handleContinuePainting = (event) => {
-    if (this.props.isPaintEnabled && this.state.isPainting)
-      this.drawSquare(event);
+    if (!this.props.isPaintEnabled)
+      return;
+    if (this.state.isPainting) {
+      this.paintOnCanvas(event);
+    }
+    if (this.props.toolType !== TOOL_TYPES.COLOR_PICK) {
+      // Clear the canvas for the mouse layer
+      const mouseCanvas = this.mouseLayer.current;
+      const mouseCtx = mouseCanvas.getContext('2d');
+      mouseCtx.clearRect(0, 0, mouseCanvas.width, mouseCanvas.height);
+      // Draw a transparent rectangle to preview where the mouse will paint
+      this.drawSquare(event, mouseCtx, "rgba(0, 0, 0, 0.3)");
+    }
+  }
+
+  handleMouseOut = (event) => {
+    // TODO: add helper function for clearing canvas
+    const mouseCanvas = this.mouseLayer.current;
+    const mouseCtx = mouseCanvas.getContext('2d');
+    mouseCtx.clearRect(0, 0, mouseCanvas.width, mouseCanvas.height);
   }
 
   getPosition = (event) => {
@@ -91,18 +112,24 @@ class Canvas extends Component {
     };
   }
 
-  drawSquare = (event) => {
-    const canvas = this.canvas.current;
-    const ctx = canvas.getContext('2d');
-    const pixelSize = +this.props.pixelSize;
+  paintOnCanvas = (event) => {
+    const ctx = this.canvas.current.getContext('2d');
+    const color = this.props.toolType === TOOL_TYPES.PAINT ? this.props.paintColor : null;
+    this.drawSquare(event, ctx, color);
+  }
+
+  drawSquare = (event, ctx, color) => {
+    let { pixelSize, brushSize } = this.props;
+    const length = brushSize * pixelSize;
     const coord = this.getPosition(event);
-    const x = Math.floor(coord.x / pixelSize) * pixelSize;
-    const y = Math.floor(coord.y / pixelSize) * pixelSize;
-    ctx.fillStyle = this.props.paintColor;
-    if (this.props.toolType === TOOL_TYPES.ERASE) {
-      ctx.clearRect(x, y, pixelSize, pixelSize);
+    const offset = Math.floor(brushSize / 2) * pixelSize;
+    const x = Math.floor(coord.x / pixelSize) * pixelSize - offset;
+    const y = Math.floor(coord.y / pixelSize) * pixelSize - offset;
+    if (color == null) {
+      ctx.clearRect(x, y, length, length);
     } else {
-      ctx.fillRect(x, y, pixelSize, pixelSize);
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y, length, length);
     }
   }
 
@@ -114,12 +141,20 @@ class Canvas extends Component {
     const maxHeight = isMobile ? 280 : (window.innerHeight - 20);
     if (img.width > maxWidth || img.height > maxHeight) {
       const ratio = Math.max(img.width / maxWidth, img.height / maxHeight);
-      canvas.width = Math.round(img.width / ratio);
-      canvas.height = Math.round(img.height / ratio);
+      this.setCanvasSize(Math.round(img.width / ratio), Math.round(img.height / ratio));
       Pica().resize(img, canvas)
         .then(result => this.setResizedImage(result.toDataURL()));
     } else {
+      this.setCanvasSize(img.width, img.height);
       this.setResizedImage(img.src);
+    }
+  }
+
+  setCanvasSize = (width, height) => {
+    const canvases = [this.canvas.current, this.mouseLayer.current];
+    for (var c of canvases) {
+      c.width = width;
+      c.height = height;
     }
   }
 
@@ -128,7 +163,7 @@ class Canvas extends Component {
     resizedImg.src = imgSrc;
     resizedImg.onload = () => {
       this.setState({img: resizedImg});
-      this.pixelate(resizedImg, +this.props.pixelSize);
+      this.pixelate(resizedImg, this.props.pixelSize);
       this.props.onLoadImageSuccess();
     }
   }
@@ -220,7 +255,10 @@ class Canvas extends Component {
 
   render() {
     return(
-      <canvas ref={this.canvas} className={styles.canvas} />
+      <React.Fragment>
+        <canvas ref={this.canvas} className={styles.canvas} />
+        <canvas ref={this.mouseLayer} className={styles.canvas} />
+      </React.Fragment>
     );
   }
 }
@@ -231,6 +269,7 @@ const mapStateToProps = state => {
     isPaintEnabled: state.isPaintEnabled,
     paintColor: state.paintColor,
     pixelSize: state.pixelSize,
+    brushSize: state.brushSize,
     contrast: state.contrast,
     brightness: state.brightness,
     saturation: state.saturation,

@@ -8,6 +8,7 @@ import * as actions from '../../../store/actions';
 import styles from './PaintTools.module.css';
 import { TOOL_TYPES } from '../../../constants/constants';
 import Button from '../../../components/Button/Button';
+import SliderControl from '../../../components/SliderControl/SliderControl';
 
 class PaintTools extends Component {
   constructor(props) {
@@ -55,6 +56,12 @@ class PaintTools extends Component {
             styles={pickerStyles}
             disableAlpha />
         </div>
+        <SliderControl 
+          label="Brush Size"
+          minValue="1"
+          maxValue="50"
+          inputValue={this.props.brushSize}
+          onChangeValue={this.props.onChangeBrushSize} />
       </div>
     );
   }
@@ -64,6 +71,7 @@ const mapStateToProps = state => {
   return {
     color: state.paintColor,
     toolType: state.toolType,
+    brushSize: state.brushSize,
   };
 };
 
@@ -71,6 +79,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onChangeColor: (color) => dispatch(actions.updatePaintColor(color)),
     onChangeToolType: (toolType) => dispatch(actions.updateToolType(toolType)),
+    onChangeBrushSize: (brushSize) => dispatch(actions.updateBrushSize(brushSize)),
   };
 };
 

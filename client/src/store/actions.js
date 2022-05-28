@@ -21,6 +21,13 @@ export const updatePixelSize = (pixelSize) => {
   };
 };
 
+export const updateBrushSize = (brushSize) => {
+  return {
+    type: actionTypes.UPDATE_BRUSH_SIZE,
+    brushSize: brushSize
+  };
+};
+
 export const updateContrast = (contrast) => {
   return {
     type: actionTypes.UPDATE_CONTRAST,

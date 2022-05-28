@@ -16,7 +16,8 @@ const initialState = {
   image: createTestImage(),
   isPaintEnabled: false,
   paintColor: '#000',
-  pixelSize: 4,
+  pixelSize: 6,
+  brushSize: 1,
   contrast: 0,
   brightness: 0,
   saturation: 0,
@@ -38,7 +39,11 @@ function enablePaint(state, action) {
 }
 
 function updatePixelSize(state, action) {
-  return updateObject(state, {pixelSize: action.pixelSize});
+  return updateObject(state, {pixelSize: +action.pixelSize});
+}
+
+function updateBrushSize(state, action) {
+  return updateObject(state, {brushSize: +action.brushSize});
 }
 
 function updateContrast(state, action) {
@@ -73,6 +78,7 @@ const reducer = createReducer(initialState, {
   [actionTypes.LOAD_IMAGE_SUCCESS]: loadImageSuccess,
   [actionTypes.ENABLE_PAINT]: enablePaint,
   [actionTypes.UPDATE_PIXEL_SIZE]: updatePixelSize,
+  [actionTypes.UPDATE_BRUSH_SIZE]: updateBrushSize,
   [actionTypes.UPDATE_CONTRAST]: updateContrast,
   [actionTypes.UPDATE_BRIGHTNESS]: updateBrightness,
   [actionTypes.UPDATE_SATURATION]: updateSaturation,
