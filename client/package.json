@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "file-saver": "^2.0.2",
+    "file-saver": "^2.0.5",
     "pica": "^9.0.1",
     "react": "^16.8.6",
     "react-color": "^2.19.3",

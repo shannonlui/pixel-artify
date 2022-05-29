@@ -222,16 +222,8 @@ class Canvas extends Component {
   }
 
   saveCanvas = () => {
-    var ua = window.navigator.userAgent;
-    var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
-    var webkit = !!ua.match(/WebKit/i);
-    var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
     const canvasURL = this.canvas.current.toDataURL('image/png');
-    if (iOSSafari) {
-      window.open(canvasURL, '_blank');
-    } else {
-      saveAs(canvasURL, 'pixelartify.png');
-    }
+    saveAs(canvasURL, 'pixelartify.png');
   }
 
   applyColorAdjustments = () => {
@@ -247,7 +239,7 @@ class Canvas extends Component {
       <React.Fragment>
         <canvas ref={this.grid} className={styles.canvas} />
         <canvas ref={this.canvas} className={styles.canvas} />
-        <canvas ref={this.mouseLayer} className={styles.canvas} />
+        <canvas ref={this.mouseLayer} className={`${styles.canvas} ${styles.hideOnSmallScreen}`} />
       </React.Fragment>
     );
   }
