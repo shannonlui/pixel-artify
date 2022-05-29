@@ -30,6 +30,7 @@ const Controls = (props) => {
         <input type="number" 
             value={props.colorCount}
             onChange={(e) => props.onChangeColorCount(e.target.value, props.img)}
+            className={styles.colorCountInput}
             placeholder="Max number of colors" />   
         {(props.colorCount > 1 && props.colorCount < 51) ? 
             null : <p className={styles.error}>Value must be between 2 and 50</p>}
@@ -49,7 +50,7 @@ const Controls = (props) => {
       </FormControl>
       <SliderControl 
         label="Pixel Size"
-        minValue="0"
+        minValue="1"
         maxValue="50"
         inputValue={props.pixelSize}
         onChangeValue={props.onChangePixelSize} />
@@ -83,7 +84,7 @@ const Controls = (props) => {
       }
       <button
         className={styles.export}
-        onClick={props.exportImage}>Export</button>    
+        onClick={props.onEnablePaint}>Continue</button>    
     </div>
   );
 };
@@ -107,6 +108,7 @@ const mapDispatchToProps = dispatch => {
     onChangeBrightness: (brightness) => dispatch(actions.updateBrightness(brightness)),
     onChangeSaturation: (saturation) => dispatch(actions.updateSaturation(saturation)),
     onChangeColorCount: (colorCount, image) => dispatch(actions.updateColorCount(colorCount, image)),
+    onEnablePaint: () => dispatch(actions.enablePaint())
   };
 };
 

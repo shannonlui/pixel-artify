@@ -21,6 +21,13 @@ export const updatePixelSize = (pixelSize) => {
   };
 };
 
+export const updateBrushSize = (brushSize) => {
+  return {
+    type: actionTypes.UPDATE_BRUSH_SIZE,
+    brushSize: brushSize
+  };
+};
+
 export const updateContrast = (contrast) => {
   return {
     type: actionTypes.UPDATE_CONTRAST,
@@ -43,7 +50,6 @@ export const updateSaturation = (saturation) => {
   };
 };
 
-
 export const updateColorCount = (colorCount, image) => {
   const colorThief = new ColorThief();
   let palette = [];
@@ -54,5 +60,25 @@ export const updateColorCount = (colorCount, image) => {
     type: actionTypes.UPDATE_COLOR_COUNT,
     colorCount: colorCount,
     colorPalette: palette
+  };
+};
+
+export const enablePaint = () => {
+  return {
+    type: actionTypes.ENABLE_PAINT
+  };
+}
+
+export const updatePaintColor = (color) => {
+  return {
+    type: actionTypes.UPDATE_PAINT_COLOR,
+    paintColor: color
+  };
+};
+
+export const updateToolType = (toolType) => {
+  return {
+    type: actionTypes.UPDATE_TOOL_TYPE,
+    toolType: toolType
   };
 };

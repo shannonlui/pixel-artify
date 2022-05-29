@@ -1,11 +1,12 @@
 .sidebar {
   height: 100%;
-  width: 340px;
+  width: 320px;
   position: fixed;
   top: 0;
   left: 0;
   background-color: #333;
-  overflow-x: hidden;
+  overflow-y: scroll;
+  z-index: 10;
 }
 
 .sidebar:after {
@@ -19,29 +20,33 @@
   color: white;
   text-decoration: none;
   text-align: center;
-  margin-bottom: 40px;
-  padding-top: 15px;
-  padding-bottom: 17px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 12px;
   border-bottom: 1px solid #555;
 }
 
+.logoLeft {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.logoRight {
+  width: 20px;
+  margin-left: 8px;
+}
+
 .content {
-  height: 100vh;
-  margin-left: 340px;
-  position: relative;
+  min-height: 100vh;
+  margin-left: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #444;
 }
 
 .content canvas {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   border: 1px dashed #666;
-}
-
-.previewLabel {
-  display: none;
 }
 
 @media only screen and (max-width: 700px) {
@@ -53,25 +58,11 @@
   }
 
   .content {
+    min-height: 300px;
     height: 300px;
     width: 100%;
     margin-left: 0;
     position: fixed;
     bottom: 0;
-  }
-
-  .content canvas {
-    position: static;
-    transform: none;
-    display: block;
-    margin: 20px auto;
-    max-height: 200px;
-  }
-
-  .previewLabel {
-    display: block;
-    color: white;
-    font-weight: bold;
-    margin: 20px 30px;
   }
 }

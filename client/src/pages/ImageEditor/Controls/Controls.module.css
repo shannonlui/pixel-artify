@@ -1,6 +1,6 @@
 .controls {
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .controls img {
@@ -36,6 +36,10 @@
   text-align: right;
   border-top: 2px solid red;
   padding-top: 4px;
+}
+
+.colorCountInput {
+  margin-top: 10px;
 }
 
 @media only screen and (max-width: 768px) {

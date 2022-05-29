@@ -1,0 +1,40 @@
+.container {
+  margin: 0 30px;
+}
+
+.toolsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.toolsLabel {
+  padding: 5px 0px;
+  color: white;
+  font-weight: bold;
+}
+
+.tools button {
+  border-radius: 4px;
+  background: none;
+  padding: 4px 8px;
+  border: none;
+  color: white;
+}
+
+.tools button:hover {
+  background: grey;
+}
+
+.tools .selected, .tools .selected:hover {
+  background: #ef6461;
+}
+
+.tools button svg {
+  margin-right: 0;
+}
+
+.pickerContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
